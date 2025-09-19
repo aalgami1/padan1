@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Register</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url(Roblox-Key.png) no-repeat center/cover;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .wrapper {
+      width: 380px;
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 10px;
+      color: #fff;
+    }
+    .wrapper h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-box {
+      margin: 15px 0;
+    }
+    .input-box input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 6px;
+      background: #ffd966;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .toggle-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .toggle-link a {
+      color: #ffd966;
+      cursor: pointer;
+    }
+    #porto {
+      display: none;
+      color: white;
+      text-align: center;
+    }
+    header {
+      background: #1A2238;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN FORM -->
+  <div class="wrapper" id="loginForm">
+    <h1>Login</h1>
+    <div class="input-box">
+      <input type="text" id="loginUser" placeholder="Username" required>
+    </div>
+    <div class="input-box">
+      <input type="password" id="loginPass" placeholder="Password" required>
+    </div>
+    <button class="btn" onclick="login()">Login</button>
+    <div class="toggle-link">
+      <p>Belum punya akun? <a onclick="showRegister()">Register</a></p>
+    </div>
+  </div>
+
+  <!-- REGISTER FORM -->
+  <div class="wrapper" id="registerForm" style="display:none;">
+    <h1>Register</h1>
+    <div class="input-box">
+      <input type="text" id="regUser" placeholder="Username" required>
+    </div>
+    <div class="input-box">
+      <input type="password" id="regPass" placeholder="Password" required>
+    </div>
+    <button class="btn" onclick="register()">Register</button>
+    <div class="toggle-link">
+      <p>Sudah punya akun? <a onclick="showLogin()">Login</a></p>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO PAGE -->
+  <div id="porto">
+    <header>
+      <h1>MyPorto</h1>
+      <button onclick="logout()">Logout</button>
+    </header>
+    <h2>Hai, saya Padan 👋</h2>
+    <p>Frontend Developer | Project Showcase</p>
+    <button class="btn">Hire Me</button>
+  </div>
+
+<script>
+  // Simpan user dummy di localStorage
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  function showRegister(){
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("registerForm").style.display="block";
+  }
+  function showLogin(){
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("loginForm").style.display="block";
+  }
+
+  function register(){
+    let user = document.getElementById("regUser").value;
+    let pass = document.getElementById("regPass").value;
+    if(user && pass){
+      users.push({username:user,password:pass});
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("Register berhasil, silakan login!");
+      showLogin();
+    } else {
+      alert("Isi semua data!");
+    }
+  }
+
+  function login(){
+    let user = document.getElementById("loginUser").value;
+    let pass = document.getElementById("loginPass").value;
+    let found = users.find(u=>u.username===user && u.password===pass);
+    if(found){
+      document.getElementById("loginForm").style.display="none";
+      document.getElementById("porto").style.display="block";
+    } else {
+      alert("Username / Password salah!");
+    }
+  }
+
+  function logout(){
+    document.getElementById("porto").style.display="none";
+    document.getElementById("loginForm").style.display="block";
+  }
+</script>
+
+</body>
+</html>
